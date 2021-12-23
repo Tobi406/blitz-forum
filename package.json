@@ -9,7 +9,8 @@
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "test": "jest",
     "test:watch": "jest --watch",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "buildstart": "npm run build && npm run start"
   },
   "prisma": {
     "schema": "db/schema.prisma"
@@ -24,22 +25,24 @@
     ]
   },
   "dependencies": {
-    "@chakra-ui/react": "1.1.2",
+    "@chakra-ui/react": "1.6.7",
     "@emotion/react": "11.1.4",
     "@emotion/styled": "11.0.0",
     "@prisma/client": "2.29.1",
     "blitz": "0.39.0",
     "final-form": "4.20.2",
-    "framer-motion": "3.2.0",
+    "framer-motion": "4.0.0",
     "react": "alpha",
     "react-dom": "alpha",
     "react-final-form": "6.5.3",
     "react-icons": "4.2.0",
+    "react-select": "4.3.1",
     "zod": "3.7.3"
   },
   "devDependencies": {
     "@types/preview-email": "2.0.1",
     "@types/react": "17.0.19",
+    "@types/react-select": "4.0.17",
     "eslint": "7.32.0",
     "husky": "6.0.0",
     "lint-staged": "10.5.4",

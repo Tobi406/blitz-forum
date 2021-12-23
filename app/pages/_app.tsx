@@ -1,15 +1,26 @@
+import { ChakraProvider, Flex } from "@chakra-ui/react";
+import LoginForm from "app/auth/components/LoginForm";
+import Footer from "app/layout/components/Footer";
+import Navigation from "app/layout/components/Navigation";
+import PermissionCheck from "app/permissions/components/PermissionCheck";
 import {
-  AppProps,
-  ErrorBoundary,
-  ErrorComponent,
-  AuthenticationError,
-  AuthorizationError,
-  ErrorFallbackProps,
-  useQueryErrorResetBoundary,
-} from "blitz"
-import LoginForm from "app/auth/components/LoginForm"
+  AppProps, AuthenticationError,
+  AuthorizationError, ErrorBoundary,
+  ErrorComponent, ErrorFallbackProps,
+  useQueryErrorResetBoundary
+} from "blitz";
+import React from "react";
 
-export default function App({ Component, pageProps }: AppProps) {
+
+export interface PermissionProps {
+  permission?: string,
+};
+
+interface PermissionPropsApp {
+  Component: PermissionProps,
+};
+
+export default function App({ Component, pageProps }: AppProps & PermissionPropsApp) {
   const getLayout = Component.getLayout || ((page) => page)
 
   return (
@@ -17,9 +28,23 @@ export default function App({ Component, pageProps }: AppProps) {
       FallbackComponent={RootErrorFallback}
       onReset={useQueryErrorResetBoundary().reset}
     >
-      {getLayout(<Component {...pageProps} />)}
+      <ChakraProvider>
+        <Flex height="100vh" justifyContent="center">
+          <Flex height="inherit" width="50%" minWidth="400px" flexDirection="column">
+            <Navigation />
+            <Flex
+              as="main"
+            >
+              <PermissionCheck permission={Component.permission}>
+                {getLayout(<Component {...pageProps} />)}
+              </PermissionCheck>
+            </Flex>
+            <Footer />
+          </Flex> 
+        </Flex>
+      </ChakraProvider>
     </ErrorBoundary>
-  )
+  );
 }
 
 function RootErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps) {
